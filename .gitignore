@@ -1,0 +1,17 @@
+# Go 编译文件
+*.exe
+*.out
+*.log
+*.test
+*.swp
+
+# 依赖管理
+go.sum
+vendor/
+
+# 配置文件
+config/config.yaml
+
+# IDE 相关
+.idea/
+.vscode/
