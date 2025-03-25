@@ -14,6 +14,7 @@ func SetupRoutes(r *gin.Engine) {
 	// 公共题目接口
 	r.GET("/problems", controllers.GetProblems)
 	r.GET("/problems/:id", controllers.GetProblemByID)
+	r.GET("/submissions/:id/results", controllers.GetTestcaseResults)
 
 	// 受保护的题目接口（添加题目）
 	auth := r.Group("/auth", middleware.AuthMiddleware())

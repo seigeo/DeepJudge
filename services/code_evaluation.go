@@ -1,67 +1,115 @@
 package services
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"time"
 )
 
-func EvaluateCode(code, lang string, input, expectedOutput string) (string, error) {
-	tmpFile := fmt.Sprintf("submissions/tmp_%d", time.Now().UnixNano())
-	var sourceFile, execFile string
+type CaseResult struct {
+	CaseID    string
+	Status    string
+	Output    string
+	Expected  string
+	RuntimeMs int
+}
 
-	// 保存源码
+func EvaluateCode(code, lang string, problemID uint) ([]CaseResult, string, error) {
+	// 生成临时代码文件
+	tmpName := fmt.Sprintf("submissions/code_%d", time.Now().UnixNano())
+	var codeFile string
 	if lang == "cpp" {
-		sourceFile = tmpFile + ".cpp"
-		execFile = tmpFile
+		codeFile = tmpName + ".cpp"
 	} else if lang == "python" {
-		sourceFile = tmpFile + ".py"
-		execFile = sourceFile
+		codeFile = tmpName + ".py"
 	} else {
-		return "Unsupported Language", nil
+		return nil, "Unsupported Language", nil
 	}
 
-	_ = os.WriteFile(sourceFile, []byte(code), 0644)
+	if err := os.WriteFile(codeFile, []byte(code), 0644); err != nil {
+		return nil, "File Write Error", err
+	}
 
-	var compileErr error
-	if lang == "cpp" {
-		cmd := exec.Command("g++", sourceFile, "-o", execFile)
-		compileErr = cmd.Run()
-		if compileErr != nil {
-			return "Compilation Error", nil
+	var results []CaseResult
+	finalStatus := "Accepted"
+
+	testDir := fmt.Sprintf("testcases/%d", problemID)
+	files, err := os.ReadDir(testDir)
+	if err != nil {
+		return nil, "Missing Testcases", nil
+	}
+
+	// 获取所有 .in 文件名（去掉后缀）
+	var testCases []string
+	for _, f := range files {
+		if strings.HasSuffix(f.Name(), ".in") {
+			testCases = append(testCases, strings.TrimSuffix(f.Name(), ".in"))
 		}
 	}
 
-	// 运行程序
-	var cmd *exec.Cmd
-	if lang == "cpp" {
-		cmd = exec.Command(execFile)
-	} else {
-		cmd = exec.Command("python3", sourceFile)
+	// 遍历每组测试点
+	for _, caseID := range testCases {
+		inputPath := filepath.Join(testDir, caseID+".in")
+		outputPath := filepath.Join(testDir, caseID+".out")
+
+		input, err1 := os.ReadFile(inputPath)
+		expectedBytes, err2 := os.ReadFile(outputPath)
+		if err1 != nil || err2 != nil {
+			results = append(results, CaseResult{CaseID: caseID, Status: "Missing Testcase"})
+			finalStatus = "Wrong Answer"
+			continue
+		}
+		expected := strings.TrimSpace(string(expectedBytes))
+
+		// 拼接 docker run 命令
+		absCodePath, _ := filepath.Abs(codeFile)
+		containerPath := "/app/code"
+
+		dockerArgs := []string{
+			"run", "--rm",
+			"-v", fmt.Sprintf("%s:%s", absCodePath, containerPath),
+			"deepjudge-runner",
+			lang, containerPath, string(input),
+		}
+
+		// 设置超时上下文
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+
+		cmd := exec.CommandContext(ctx, "docker", dockerArgs...)
+		start := time.Now()
+		outputBytes, err := cmd.CombinedOutput()
+		elapsed := time.Since(start).Milliseconds()
+
+		actual := strings.TrimSpace(string(outputBytes))
+		status := "Accepted"
+
+		if ctx.Err() == context.DeadlineExceeded {
+			status = "Time Limit Exceeded"
+			finalStatus = "Wrong Answer"
+		} else if err != nil {
+			status = "Runtime Error"
+			finalStatus = "Wrong Answer"
+		} else if actual != expected {
+			status = "Wrong Answer"
+			finalStatus = "Wrong Answer"
+		}
+
+		results = append(results, CaseResult{
+			CaseID:    caseID,
+			Status:    status,
+			Output:    actual,
+			Expected:  expected,
+			RuntimeMs: int(elapsed),
+		})
 	}
 
-	stdin, _ := cmd.StdinPipe()
-	// stdout, _ := cmd.Output()
+	// 清理临时文件
+	_ = os.Remove(codeFile)
 
-	// 输入数据
-	go func() {
-		defer stdin.Close()
-		stdin.Write([]byte(input))
-	}()
-
-	outputBytes, err := cmd.CombinedOutput()
-	if err != nil {
-		return "Runtime Error", nil
-	}
-
-	output := strings.TrimSpace(string(outputBytes))
-	expected := strings.TrimSpace(expectedOutput)
-
-	if output == expected {
-		return "Accepted", nil
-	} else {
-		return fmt.Sprintf("Wrong Answer\n你的输出: %s\n期望输出: %s", output, expected), nil
-	}
+	return results, finalStatus, nil
 }
