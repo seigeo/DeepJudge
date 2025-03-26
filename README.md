@@ -28,7 +28,7 @@
 | 数据存储     | SQLite（可平滑切换 MySQL/PostgreSQL） |
 | 异步任务队列 | Redis + Goroutine Worker Pool         |
 | 沙箱运行     | Docker 容器（运行用户代码）           |
-| 智能分析     | DeepSeek API（规划中）                |
+| 智能分析     | DeepSeek API                          |
 | 前端         | Vue 3 + Element Plus（可选）          |
 
 ---
@@ -42,6 +42,6 @@
 - ✅ 多 Worker 调度机制，提升评测吞吐量
 - ✅ 每次提交记录所有测试点状态
 - ✅ 提交记录分页接口
-- ⏳ DeepSeek 智能分析结果展示
+- ✅ DeepSeek 智能分析结果展示
+- ✅ 安全限制：资源限额 / 防止刷题攻击
 - ⏳ 用户评测排行 / 提交统计
-- ⏳ 安全限制：资源限额 / 防止刷题攻击
