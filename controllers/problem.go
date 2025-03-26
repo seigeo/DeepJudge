@@ -4,6 +4,7 @@ import (
 	"deepjudge/models"
 	"deepjudge/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -81,15 +82,41 @@ func DeleteProblem(c *gin.Context) {
 // 获取该题目的所有提交记录
 func GetProblemSubmissions(c *gin.Context) {
 	problemID := c.Param("id")
-	var submissions []models.Submission
 
-	if err := utils.DB.
+	// 获取分页参数，默认第 1 页，每页 10 条记录
+	page := c.DefaultQuery("page", "1")
+	limit := c.DefaultQuery("limit", "10")
+
+	pageInt, err := strconv.Atoi(page)
+	if err != nil || pageInt < 1 {
+		pageInt = 1
+	}
+
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil || limitInt < 1 {
+		limitInt = 10
+	}
+
+	var submissions []models.Submission
+	var total int64
+
+	// 查询该问题的所有提交记录，并进行分页
+	if err := utils.DB.Model(&models.Submission{}).
 		Where("problem_id = ?", problemID).
+		Count(&total).
 		Order("submit_time desc").
+		Offset((pageInt - 1) * limitInt).
+		Limit(limitInt).
 		Find(&submissions).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "查询失败"})
 		return
 	}
 
-	c.JSON(http.StatusOK, submissions)
+	// 返回分页信息和提交记录
+	c.JSON(http.StatusOK, gin.H{
+		"total":       total,
+		"page":        pageInt,
+		"limit":       limitInt,
+		"submissions": submissions,
+	})
 }
