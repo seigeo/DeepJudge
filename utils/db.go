@@ -18,7 +18,7 @@ func InitDB() {
 	}
 
 	// 自动迁移
-	err = DB.AutoMigrate(&models.User{}, &models.Problem{}, &models.Submission{}, &models.TestcaseResult{})
+	err = DB.AutoMigrate(&models.User{}, &models.Problem{}, &models.Submission{}, &models.TestcaseResult{}, &models.AnalysisResult{})
 	if err != nil {
 		log.Fatal("数据库迁移失败:", err)
 	}

@@ -35,5 +35,8 @@ func SetupRoutes(r *gin.Engine) {
 		// 与用户相关的通用接口
 		auth.GET("/submissions", controllers.GetUserSubmissions)             // 获取当前用户所有提交记录
 		auth.GET("/submissions/:id/results", controllers.GetTestcaseResults) // 查看测试点结果
+		// 分析结果接口
+		auth.POST("/submissions/:id/analyze", controllers.TriggerAnalysis) // 提交分析请求
+		auth.GET("/submissions/:id/analysis", controllers.GetAllAnalyses)  // 查看分析结果
 	}
 }

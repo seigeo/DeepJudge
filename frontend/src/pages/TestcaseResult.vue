@@ -20,6 +20,39 @@
         <el-button @click="copyToClipboard">复制</el-button>
       </div>
       <pre class="code-area">{{ submission.code }}</pre>
+      <el-button type="primary" @click="analyzeSubmission">开始分析</el-button>
+      <div class="analysis-records" v-if="analysisRecords.length">
+        <h3>分析记录</h3>
+        <el-table :data="analysisRecords" style="width: 100%; margin-top: 20px;">
+          <el-table-column prop="ID" label="分析ID" width="120" />
+          <el-table-column prop="status" label="状态" width="160">
+            <template v-slot="{ row }">
+              <span :style="{ color: row.status === 'completed' ? 'green' : row.status === 'failed' ? 'red' : row.status === 'pending' ? 'gray' : row.status === 'analyzing' ? 'blue' : 'black' }">
+                {{ row.status }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column label="结果" width="700">
+            <template v-slot="{ row }">
+              <div v-if="row.content">
+                <div
+                  v-html="renderMarkdown(row.expanded ? row.content : (row.content.length > 50 ? row.content.slice(0, 50) + '...' : row.content))"
+                ></div>
+                <el-button
+                  type="text"
+                  size="small"
+                  @click="row.expanded = !row.expanded"
+                  style="margin-top: 4px;"
+                >
+                  {{ row.expanded ? '收起' : '展开' }}
+                </el-button>
+              </div>
+              <span v-else style="color: gray;">无摘要</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div v-else class="empty-message">暂无分析记录</div>
       <el-table :data="results" style="width: 100%; margin-top: 20px;" v-if="results.length" class="result-table">
         <el-table-column prop="case_id" label="测试点编号" width="100" />
         <el-table-column label="评测状态" width="160">
@@ -56,14 +89,19 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useRoute } from 'vue-router'
+import axios from '../api/axios'
+import MarkdownIt from 'markdown-it'
+import markdownItKatex from 'markdown-it-katex'
+const md = new MarkdownIt().use(markdownItKatex)
+const renderMarkdown = (text) => md.render(text)
 
 const results = ref([])
 const problemId = ref('')
 const submission = ref({})
+const analysisRecords = ref([])
 
-import { useRoute } from 'vue-router'
-import axios from '../api/axios'
-
+console.log('analysisRecords', analysisRecords.value)
 const route = useRoute()
 
 const copyToClipboard = () => {
@@ -72,6 +110,20 @@ const copyToClipboard = () => {
   }).catch(err => {
     console.error('复制失败', err)
   });
+}
+
+const analyzeSubmission = async () => {
+  const submissionId = route.params.id
+  try {
+    await axios.post(`/auth/submissions/${submissionId}/analyze`, {}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    ElMessage.success('分析请求已发送！')
+  } catch (err) {
+    console.error('分析请求失败', err)
+  }
 }
 
 onMounted(async () => {
@@ -85,6 +137,13 @@ onMounted(async () => {
     results.value = res.data.results
     submission.value = res.data.submission
     problemId.value = submission.value.problem_id
+
+    const analysisRes = await axios.get(`/auth/submissions/${submissionId}/analysis`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    analysisRecords.value = analysisRes.data.analyses.reverse().map(record => ({ ...record, expanded: false }))
   } catch (err) {
     console.error('获取测试点结果失败', err)
   }
@@ -128,6 +187,9 @@ onMounted(async () => {
   font-family: monospace;
   padding: 10px;
   border-radius: 8px;
+}
+.analysis-records {
+  margin-top: 20px;
 }
 .result-table {
   border-radius: 8px;
