@@ -110,6 +110,29 @@ const total = ref(0)
 const caseResults = ref([])
 const router = useRouter()  // 使用 useRouter 获取路由实例
 
+const submitCode = async () => {
+  const id = route.params.id
+  if (!code.value || !selectedLanguage.value) {
+    alert("请输入代码并选择语言")
+    return
+  }
+
+  try {
+    const res = await axios.post(`/auth/problems/${id}/submit`, {
+      code: code.value,
+      language: selectedLanguage.value
+    })
+
+    result.value = "Pending"
+    passed.value = 0
+    total.value = 0
+    caseResults.value = []
+    alert("提交成功，已加入评测队列，稍后请查看提交记录")
+  } catch (err) {
+    console.error("提交失败：", err)
+    alert("提交失败，请稍后重试")
+  }
+}
 
 const goToSubmissionHistory = () => {
   const problemID = route.params.id

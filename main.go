@@ -15,6 +15,7 @@ func main() {
 	utils.InitRedis()
 	utils.InitDB()
 	services.StartJudgeWorkerPool(4) // 启动 4 个评测 worker
+	// services.ProcessProblemUpdateQueue()
 
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{

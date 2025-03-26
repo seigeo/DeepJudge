@@ -21,15 +21,19 @@ func SetupRoutes(r *gin.Engine) {
 	{
 		problems := auth.Group("/problems")
 		{
-			problems.POST("", controllers.CreateProblem)       //创建题目
-			problems.PUT("/:id", controllers.UpdateProblem)    //编辑题目
-			problems.DELETE("/:id", controllers.DeleteProblem) //删除题目
 
 			problems.POST("/:id/submit", middleware.RateLimitMiddleware(2, 10*time.Second), // 10 秒最多 2 次
 				controllers.SubmitCode) //提交代码
-			problems.POST("/:id/upload", controllers.UploadTestcases) //上传测试用例
 			problems.GET("/:id/all_submissions", controllers.GetProblemSubmissions)
 			problems.GET("/:id/submissions", controllers.GetProblemSubmissions)
+		}
+
+		edit := auth.Group("/edit")
+		{
+			edit.POST("/add", controllers.CreateProblem)          //创建题目
+			edit.PUT("/:id", controllers.UpdateProblem)           //编辑题目
+			edit.DELETE("/:id", controllers.DeleteProblem)        //删除题目
+			edit.POST("/:id/upload", controllers.UploadTestcases) //上传测试用例
 		}
 
 		// 与用户相关的通用接口
