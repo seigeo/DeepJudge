@@ -4,6 +4,8 @@ import "gorm.io/gorm"
 
 type Problem struct {
 	gorm.Model
+
+	ID           uint   `json:"id"` // 👈 添加这一行，或者在匿名结构体上标注
 	Title        string `json:"title"`
 	Description  string `json:"description"` // 题目描述
 	Input        string `json:"input"`       // 输入描述

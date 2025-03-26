@@ -8,22 +8,30 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
-	r.POST("/register", controllers.Register)
-	r.POST("/login", controllers.Login)
+	r.POST("/register", controllers.Register) //注册
+	r.POST("/login", controllers.Login)       //登陆
 
 	// 公共题目接口
-	r.GET("/problems", controllers.GetProblems)
-	r.GET("/problems/:id", controllers.GetProblemByID)
-	r.GET("/submissions/:id/results", controllers.GetTestcaseResults)
+	r.GET("/problems", controllers.GetProblems)        //查看题目列表
+	r.GET("/problems/:id", controllers.GetProblemByID) //查看题目
 
-	// 受保护的题目接口（添加题目）
+	// 受保护接口
 	auth := r.Group("/auth", middleware.AuthMiddleware())
 	{
-		auth.POST("/problems", controllers.CreateProblem)
-		auth.PUT("/problems/:id", controllers.UpdateProblem)    // 编辑题目
-		auth.DELETE("/problems/:id", controllers.DeleteProblem) // 删除题目
+		problems := auth.Group("/problems")
+		{
+			problems.POST("", controllers.CreateProblem)       //创建题目
+			problems.PUT("/:id", controllers.UpdateProblem)    //编辑题目
+			problems.DELETE("/:id", controllers.DeleteProblem) //删除题目
 
-		auth.POST("/submit", controllers.SubmitCode)
-		auth.GET("/submissions/:id", controllers.GetSubmission)
+			problems.POST("/:id/submit", controllers.SubmitCode)      //提交代码
+			problems.POST("/:id/upload", controllers.UploadTestcases) //上传测试用例
+			problems.GET("/:id/all_submissions", controllers.GetProblemSubmissions)
+			problems.GET("/:id/submissions", controllers.GetProblemSubmissions)
+		}
+
+		// 与用户相关的通用接口
+		auth.GET("/submissions", controllers.GetUserSubmissions)             // 获取当前用户所有提交记录
+		auth.GET("/submissions/:id/results", controllers.GetTestcaseResults) // 查看测试点结果
 	}
 }

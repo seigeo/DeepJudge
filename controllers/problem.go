@@ -77,3 +77,19 @@ func DeleteProblem(c *gin.Context) {
 	utils.DB.Delete(&problem)
 	c.JSON(http.StatusOK, gin.H{"message": "题目删除成功"})
 }
+
+// 获取该题目的所有提交记录
+func GetProblemSubmissions(c *gin.Context) {
+	problemID := c.Param("id")
+	var submissions []models.Submission
+
+	if err := utils.DB.
+		Where("problem_id = ?", problemID).
+		Order("submit_time desc").
+		Find(&submissions).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "查询失败"})
+		return
+	}
+
+	c.JSON(http.StatusOK, submissions)
+}
