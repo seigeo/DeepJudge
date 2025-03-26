@@ -1,0 +1,37 @@
+# Go build artifacts
+/bin/
+/obj/
+/out/
+/*.exe
+/*.out
+/*.test
+/*.dll
+/*.so
+/*.dylib
+
+# Vendor directory
+/vendor/
+
+# IDE/Editor files
+.vscode/
+.idea/
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# Coverage reports
+*.cov
+coverage.out
+
+# Mac system files
+.DS_Store
+
+# Other system files
+Thumbs.db

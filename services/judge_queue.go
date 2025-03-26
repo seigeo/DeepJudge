@@ -1,37 +1,43 @@
 package services
 
 import (
+	"context"
 	"deepjudge/models"
 	"deepjudge/utils"
+	"encoding/json"
 	"log"
+	"time"
 )
 
-type JudgeTask struct {
-	Submission models.Submission
-}
+var ctx = context.Background()
+var redisQueueKey = "judge_queue"
 
-var judgeQueue = make(chan JudgeTask, 100)
-
-// 外部调用：将任务加入评测队列
+// 👇 入队
 func EnqueueSubmission(sub models.Submission) {
-	judgeQueue <- JudgeTask{Submission: sub}
+	data, _ := json.Marshal(sub)
+	utils.RDB.LPush(ctx, redisQueueKey, data)
 }
 
-// 启动评测 worker 池
+// 👇 Worker Pool 出队并处理
 func StartJudgeWorkerPool(n int) {
 	for i := 0; i < n; i++ {
 		go func(workerID int) {
-			for task := range judgeQueue {
-				sub := task.Submission
-				log.Printf("[Worker %d] 评测 submission %d 开始", workerID, sub.ID)
-
-				caseResults, result, err := EvaluateCode(sub.Code, sub.Language, sub.ProblemID)
-				if err != nil {
-					log.Printf("[Worker %d] 评测 submission %d 失败: %v", workerID, sub.ID, err)
-					result = "System Error"
+			for {
+				res, err := utils.RDB.BRPop(ctx, 0*time.Second, redisQueueKey).Result()
+				if err != nil || len(res) < 2 {
+					log.Printf("[Worker %d] 拉任务失败: %v", workerID, err)
+					continue
 				}
 
-				// 统计通过数
+				var sub models.Submission
+				if err := json.Unmarshal([]byte(res[1]), &sub); err != nil {
+					log.Printf("[Worker %d] JSON解析失败: %v", workerID, err)
+					continue
+				}
+
+				log.Printf("[Worker %d] 开始评测 submission %d", workerID, sub.ID)
+				caseResults, result, _ := EvaluateCode(sub.Code, sub.Language, sub.ProblemID)
+
 				passCount := 0
 				for _, r := range caseResults {
 					if r.Status == "Accepted" {
@@ -39,7 +45,6 @@ func StartJudgeWorkerPool(n int) {
 					}
 				}
 
-				// 更新提交记录
 				utils.DB.Model(&models.Submission{}).
 					Where("id = ?", sub.ID).
 					Updates(map[string]interface{}{
@@ -48,7 +53,6 @@ func StartJudgeWorkerPool(n int) {
 						"total_count":  len(caseResults),
 					})
 
-				// 写入每组测试点评测结果
 				for _, r := range caseResults {
 					utils.DB.Create(&models.TestcaseResult{
 						SubmissionID: sub.ID,
@@ -60,7 +64,7 @@ func StartJudgeWorkerPool(n int) {
 					})
 				}
 
-				log.Printf("[Worker %d] 评测 submission %d 完成，结果: %s", workerID, sub.ID, result)
+				log.Printf("[Worker %d] 评测完成 submission %d: %s", workerID, sub.ID, result)
 			}
 		}(i)
 	}
