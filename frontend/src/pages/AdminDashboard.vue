@@ -21,10 +21,34 @@
               :action="`http://localhost:8080/auth/edit/${scope.row.id}/upload`"
               :headers="{ Authorization: `Bearer ${token}` }"
               :show-file-list="false"
+              :before-upload="beforeUpload"
               :on-success="handleUploadSuccess"
+              :on-error="handleUploadError"
             >
               <el-button type="success" size="small">上传测试用例</el-button>
             </el-upload>
+            <el-popover
+              placement="bottom"
+              title="上传说明"
+              :width="300"
+              trigger="hover"
+            >
+              <template #reference>
+                <el-button type="info" size="small" circle><i class="el-icon-question"></i></el-button>
+              </template>
+              <div>
+                <p>支持两种上传方式：</p>
+                <ol>
+                  <li>单个测试用例文件（.in或.out）</li>
+                  <li>包含多个测试用例的zip压缩包</li>
+                </ol>
+                <p>文件命名规则：</p>
+                <ul>
+                  <li>单个文件：数字.in 或 数字.out（例如：1.in, 1.out）</li>
+                  <li>zip包中的文件同样需要遵循上述命名规则</li>
+                </ul>
+              </div>
+            </el-popover>
           </template>
         </el-table-column>
       </el-table>
@@ -151,8 +175,29 @@
     form.value = { ...problem }
   }
   
-  const handleUploadSuccess = () => {
-    ElMessage.success('测试用例上传成功')
+  const beforeUpload = (file) => {
+    const isZIP = file.type === 'application/zip' || file.name.endsWith('.zip')
+    const isTestCase = file.name.match(/^\d+\.(in|out)$/)
+    
+    if (!isZIP && !isTestCase) {
+      ElMessage.error('只能上传zip压缩包或者.in/.out格式的测试用例文件！')
+      return false
+    }
+    
+    return true
+  }
+
+  const handleUploadSuccess = (response) => {
+    if (response.pairs) {
+      ElMessage.success(`成功上传${response.pairs.length}组测试用例`)
+    } else {
+      ElMessage.success('文件上传成功')
+    }
+    loadProblems()
+  }
+
+  const handleUploadError = () => {
+    ElMessage.error('上传失败，请检查文件格式是否正确')
   }
   
   onMounted(loadProblems)

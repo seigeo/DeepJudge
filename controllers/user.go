@@ -84,5 +84,47 @@ func Login(c *gin.Context) {
 
 func GetUserProfile(c *gin.Context) {
 	userID := c.GetUint("user_id")
-	c.JSON(http.StatusOK, gin.H{"message": "欢迎回来", "user_id": userID})
+
+	var user models.User
+	if err := utils.DB.First(&user, userID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "用户不存在"})
+		return
+	}
+
+	// 获取用户解题数据
+	var solvedCount int64
+	utils.DB.Model(&models.Submission{}).
+		Where("user_id = ? AND result = ?", userID, "Accepted").
+		Distinct("problem_id").
+		Count(&solvedCount)
+
+	c.JSON(http.StatusOK, gin.H{
+		"user_id":      user.ID,
+		"username":     user.Username,
+		"email":        user.Email,
+		"signature":    user.Signature,
+		"solved_count": solvedCount,
+		"created_at":   user.CreatedAt,
+	})
+}
+
+// UpdateUserProfile 更新用户资料
+func UpdateUserProfile(c *gin.Context) {
+	userID := c.GetUint("user_id")
+
+	var input struct {
+		Signature string `json:"signature"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "参数错误"})
+		return
+	}
+
+	// 更新用户签名
+	if err := utils.DB.Model(&models.User{}).Where("id = ?", userID).Update("signature", input.Signature).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "更新失败"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "更新成功"})
 }

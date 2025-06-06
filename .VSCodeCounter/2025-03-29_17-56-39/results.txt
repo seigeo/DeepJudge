@@ -1,0 +1,99 @@
+Date : 2025-03-29 17:56:39
+Directory : /Users/jialiangteng/Desktop/deepjudge
+Total : 46 files,  4161 codes, 87 comments, 387 blanks, all 4635 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JSON             |          2 |      1,881 |          0 |          2 |      1,883 |
+| vue              |         10 |      1,021 |          3 |        122 |      1,146 |
+| Go               |         20 |        865 |         78 |        215 |      1,158 |
+| Go Checksum File |          1 |        145 |          0 |          1 |        146 |
+| CSS              |          1 |         70 |          0 |         10 |         80 |
+| JavaScript       |          4 |         54 |          2 |         11 |         67 |
+| Go Module File   |          1 |         44 |          0 |          4 |         48 |
+| Markdown         |          2 |         39 |          0 |         15 |         54 |
+| Shell Script     |          1 |         17 |          3 |          2 |         22 |
+| HTML             |          1 |         13 |          0 |          1 |         14 |
+| Docker           |          1 |         10 |          1 |          4 |         15 |
+| XML              |          2 |          2 |          0 |          0 |          2 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                           | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                              |         46 |      4,161 |         87 |        387 |      4,635 |
+| . (Files)                                                                      |          4 |        250 |          1 |         24 |        275 |
+| controllers                                                                    |          5 |        367 |         37 |         88 |        492 |
+| frontend                                                                       |         21 |      3,044 |          5 |        149 |      3,198 |
+| frontend (Files)                                                               |          5 |      1,902 |          1 |          8 |      1,911 |
+| frontend/public                                                                |          1 |          1 |          0 |          0 |          1 |
+| frontend/src                                                                   |         15 |      1,141 |          4 |        141 |      1,286 |
+| frontend/src (Files)                                                           |          3 |         87 |          0 |         13 |        100 |
+| frontend/src/api                                                               |          1 |         12 |          1 |          3 |         16 |
+| frontend/src/assets                                                            |          1 |          1 |          0 |          0 |          1 |
+| frontend/src/components                                                        |          1 |         37 |          0 |          7 |         44 |
+| frontend/src/pages                                                             |          8 |        976 |          3 |        113 |      1,092 |
+| frontend/src/router                                                            |          1 |         28 |          0 |          5 |         33 |
+| middleware                                                                     |          2 |         87 |          2 |         18 |        107 |
+| models                                                                         |          5 |         57 |          1 |         17 |         75 |
+| routes                                                                         |          1 |         34 |          4 |          9 |         47 |
+| runner                                                                         |          2 |         27 |          4 |          6 |         37 |
+| services                                                                       |          3 |        239 |         30 |         57 |        326 |
+| utils                                                                          |          3 |         56 |          3 |         19 |         78 |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                       | language         | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/jialiangteng/Desktop/deepjudge/README.md                                | Markdown         |         36 |          0 |         12 |         48 |
+| /Users/jialiangteng/Desktop/deepjudge/controllers/analysis.go                  | Go               |         56 |         15 |         14 |         85 |
+| /Users/jialiangteng/Desktop/deepjudge/controllers/problem.go                   | Go               |         94 |          8 |         21 |        123 |
+| /Users/jialiangteng/Desktop/deepjudge/controllers/submission.go                | Go               |        102 |          6 |         27 |        135 |
+| /Users/jialiangteng/Desktop/deepjudge/controllers/upload.go                    | Go               |         46 |          2 |         12 |         60 |
+| /Users/jialiangteng/Desktop/deepjudge/controllers/user.go                      | Go               |         69 |          6 |         14 |         89 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/README.md                       | Markdown         |          3 |          0 |          3 |          6 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/index.html                      | HTML             |         13 |          0 |          1 |         14 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/package-lock.json               | JSON             |      1,855 |          0 |          1 |      1,856 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/package.json                    | JSON             |         26 |          0 |          1 |         27 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/public/vite.svg                 | XML              |          1 |          0 |          0 |          1 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/App.vue                     | vue              |          8 |          0 |          2 |         10 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/api/axios.js                | JavaScript       |         12 |          1 |          3 |         16 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/assets/vue.svg              | XML              |          1 |          0 |          0 |          1 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/components/HelloWorld.vue   | vue              |         37 |          0 |          7 |         44 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/main.js                     | JavaScript       |          9 |          0 |          1 |         10 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/AdminDashboard.vue    | vue              |        156 |          1 |         14 |        171 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/Login.vue             | vue              |         50 |          0 |          6 |         56 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/ProblemDetail.vue     | vue              |        226 |          1 |         42 |        269 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/ProblemList.vue       | vue              |         64 |          0 |          5 |         69 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/Profile.vue           | vue              |         83 |          0 |          7 |         90 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/Register.vue          | vue              |         47 |          0 |          6 |         53 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/SubmissionHistory.vue | vue              |        157 |          1 |         25 |        183 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/TestcaseResult.vue    | vue              |        193 |          0 |          8 |        201 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/router/index.js             | JavaScript       |         28 |          0 |          5 |         33 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/src/style.css                   | CSS              |         70 |          0 |         10 |         80 |
+| /Users/jialiangteng/Desktop/deepjudge/frontend/vite.config.js                  | JavaScript       |          5 |          1 |          2 |          8 |
+| /Users/jialiangteng/Desktop/deepjudge/go.mod                                   | Go Module File   |         44 |          0 |          4 |         48 |
+| /Users/jialiangteng/Desktop/deepjudge/go.sum                                   | Go Checksum File |        145 |          0 |          1 |        146 |
+| /Users/jialiangteng/Desktop/deepjudge/main.go                                  | Go               |         25 |          1 |          7 |         33 |
+| /Users/jialiangteng/Desktop/deepjudge/middleware/auth.go                       | Go               |         32 |          1 |         10 |         43 |
+| /Users/jialiangteng/Desktop/deepjudge/middleware/rate_limit.go                 | Go               |         55 |          1 |          8 |         64 |
+| /Users/jialiangteng/Desktop/deepjudge/models/analysis_result.go                | Go               |          9 |          1 |          3 |         13 |
+| /Users/jialiangteng/Desktop/deepjudge/models/problem.go                        | Go               |         13 |          0 |          4 |         17 |
+| /Users/jialiangteng/Desktop/deepjudge/models/submission.go                     | Go               |         16 |          0 |          4 |         20 |
+| /Users/jialiangteng/Desktop/deepjudge/models/testcase_result.go                | Go               |         11 |          0 |          3 |         14 |
+| /Users/jialiangteng/Desktop/deepjudge/models/user.go                           | Go               |          8 |          0 |          3 |         11 |
+| /Users/jialiangteng/Desktop/deepjudge/routes/routes.go                         | Go               |         34 |          4 |          9 |         47 |
+| /Users/jialiangteng/Desktop/deepjudge/runner/Dockerfile                        | Docker           |         10 |          1 |          4 |         15 |
+| /Users/jialiangteng/Desktop/deepjudge/runner/judge.sh                          | Shell Script     |         17 |          3 |          2 |         22 |
+| /Users/jialiangteng/Desktop/deepjudge/services/analysis.go                     | Go               |         89 |         22 |         27 |        138 |
+| /Users/jialiangteng/Desktop/deepjudge/services/code_evaluation.go              | Go               |         91 |          6 |         19 |        116 |
+| /Users/jialiangteng/Desktop/deepjudge/services/judge_queue.go                  | Go               |         59 |          2 |         11 |         72 |
+| /Users/jialiangteng/Desktop/deepjudge/utils/db.go                              | Go               |         19 |          1 |          6 |         26 |
+| /Users/jialiangteng/Desktop/deepjudge/utils/pagination.go                      | Go               |         26 |          2 |          9 |         37 |
+| /Users/jialiangteng/Desktop/deepjudge/utils/redis.go                           | Go               |         11 |          0 |          4 |         15 |
+| Total                                                                          |                  |      4,161 |         87 |        387 |      4,635 |
++--------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

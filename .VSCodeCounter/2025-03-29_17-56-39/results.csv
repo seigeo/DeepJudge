@@ -1,0 +1,48 @@
+"filename", "language", "Go", "Markdown", "Shell Script", "Docker", "JavaScript", "vue", "Go Checksum File", "XML", "CSS", "JSON", "Go Module File", "HTML", "comment", "blank", "total"
+"/Users/jialiangteng/Desktop/deepjudge/README.md", "Markdown", 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 48
+"/Users/jialiangteng/Desktop/deepjudge/controllers/analysis.go", "Go", 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 14, 85
+"/Users/jialiangteng/Desktop/deepjudge/controllers/problem.go", "Go", 94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 21, 123
+"/Users/jialiangteng/Desktop/deepjudge/controllers/submission.go", "Go", 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 27, 135
+"/Users/jialiangteng/Desktop/deepjudge/controllers/upload.go", "Go", 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 12, 60
+"/Users/jialiangteng/Desktop/deepjudge/controllers/user.go", "Go", 69, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 14, 89
+"/Users/jialiangteng/Desktop/deepjudge/frontend/README.md", "Markdown", 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6
+"/Users/jialiangteng/Desktop/deepjudge/frontend/index.html", "HTML", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 0, 1, 14
+"/Users/jialiangteng/Desktop/deepjudge/frontend/package-lock.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1855, 0, 0, 0, 1, 1856
+"/Users/jialiangteng/Desktop/deepjudge/frontend/package.json", "JSON", 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 0, 1, 27
+"/Users/jialiangteng/Desktop/deepjudge/frontend/public/vite.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/App.vue", "vue", 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/api/axios.js", "JavaScript", 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 1, 3, 16
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/assets/vue.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/components/HelloWorld.vue", "vue", 0, 0, 0, 0, 0, 37, 0, 0, 0, 0, 0, 0, 0, 7, 44
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/main.js", "JavaScript", 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/AdminDashboard.vue", "vue", 0, 0, 0, 0, 0, 156, 0, 0, 0, 0, 0, 0, 1, 14, 171
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/Login.vue", "vue", 0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0, 6, 56
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/ProblemDetail.vue", "vue", 0, 0, 0, 0, 0, 226, 0, 0, 0, 0, 0, 0, 1, 42, 269
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/ProblemList.vue", "vue", 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 0, 0, 5, 69
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/Profile.vue", "vue", 0, 0, 0, 0, 0, 83, 0, 0, 0, 0, 0, 0, 0, 7, 90
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/Register.vue", "vue", 0, 0, 0, 0, 0, 47, 0, 0, 0, 0, 0, 0, 0, 6, 53
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/SubmissionHistory.vue", "vue", 0, 0, 0, 0, 0, 157, 0, 0, 0, 0, 0, 0, 1, 25, 183
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/pages/TestcaseResult.vue", "vue", 0, 0, 0, 0, 0, 193, 0, 0, 0, 0, 0, 0, 0, 8, 201
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/router/index.js", "JavaScript", 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0, 0, 5, 33
+"/Users/jialiangteng/Desktop/deepjudge/frontend/src/style.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 10, 80
+"/Users/jialiangteng/Desktop/deepjudge/frontend/vite.config.js", "JavaScript", 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 1, 2, 8
+"/Users/jialiangteng/Desktop/deepjudge/go.mod", "Go Module File", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 4, 48
+"/Users/jialiangteng/Desktop/deepjudge/go.sum", "Go Checksum File", 0, 0, 0, 0, 0, 0, 145, 0, 0, 0, 0, 0, 0, 1, 146
+"/Users/jialiangteng/Desktop/deepjudge/main.go", "Go", 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 7, 33
+"/Users/jialiangteng/Desktop/deepjudge/middleware/auth.go", "Go", 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 10, 43
+"/Users/jialiangteng/Desktop/deepjudge/middleware/rate_limit.go", "Go", 55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 64
+"/Users/jialiangteng/Desktop/deepjudge/models/analysis_result.go", "Go", 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 13
+"/Users/jialiangteng/Desktop/deepjudge/models/problem.go", "Go", 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 17
+"/Users/jialiangteng/Desktop/deepjudge/models/submission.go", "Go", 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 20
+"/Users/jialiangteng/Desktop/deepjudge/models/testcase_result.go", "Go", 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 14
+"/Users/jialiangteng/Desktop/deepjudge/models/user.go", "Go", 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 11
+"/Users/jialiangteng/Desktop/deepjudge/routes/routes.go", "Go", 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 9, 47
+"/Users/jialiangteng/Desktop/deepjudge/runner/Dockerfile", "Docker", 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 15
+"/Users/jialiangteng/Desktop/deepjudge/runner/judge.sh", "Shell Script", 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 22
+"/Users/jialiangteng/Desktop/deepjudge/services/analysis.go", "Go", 89, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 27, 138
+"/Users/jialiangteng/Desktop/deepjudge/services/code_evaluation.go", "Go", 91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 19, 116
+"/Users/jialiangteng/Desktop/deepjudge/services/judge_queue.go", "Go", 59, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 11, 72
+"/Users/jialiangteng/Desktop/deepjudge/utils/db.go", "Go", 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6, 26
+"/Users/jialiangteng/Desktop/deepjudge/utils/pagination.go", "Go", 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 9, 37
+"/Users/jialiangteng/Desktop/deepjudge/utils/redis.go", "Go", 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 15
+"Total", "-", 865, 39, 17, 10, 54, 1021, 145, 2, 70, 1881, 44, 13, 87, 387, 4635

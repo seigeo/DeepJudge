@@ -64,6 +64,15 @@ func StartJudgeWorkerPool(n int) {
 					})
 				}
 
+				// 更新题目统计信息和用户排名
+				isAccepted := result == "Accepted"
+				if err := UpdateProblemStats(sub.ProblemID, isAccepted); err != nil {
+					log.Printf("[Worker %d] 更新题目统计失败: %v", workerID, err)
+				}
+				if err := UpdateUserRanking(sub.UserID, isAccepted); err != nil {
+					log.Printf("[Worker %d] 更新用户排名失败: %v", workerID, err)
+				}
+
 				log.Printf("[Worker %d] 评测完成 submission %d: %s", workerID, sub.ID, result)
 			}
 		}(i)

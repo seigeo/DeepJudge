@@ -2,13 +2,22 @@
   <div class="problem-list">
     <div class="header-row">
       <h2>题目列表</h2>
-      <el-button @click="$router.push('/profile')">我的主页</el-button>
+      <div>
+        <el-button @click="$router.push('/leaderboard')">排行榜</el-button>
+        <el-button @click="$router.push('/profile')">我的主页</el-button>
+      </div>
     </div>
     <el-table :data="problems" style="width: 100%" @row-click="handleRowClick">
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="title" label="题目名称" />
-      <el-table-column prop="accepted_count" label="通过数" width="100" />
-      <el-table-column prop="submission_count" label="提交数" width="100" />
+      <el-table-column label="通过率" width="150">
+        <template #default="scope">
+          <div>
+            {{ scope.row.accepted_count }}/{{ scope.row.submission_count }}
+            ({{ formatPassRate(scope.row.pass_rate) }})
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="难度" width="100">
         <template #default="scope">
           <span :class="scope.row.difficulty">{{ scope.row.difficulty }}</span>
@@ -30,10 +39,14 @@ const handleRowClick = (row) => {
   router.push({ name: 'ProblemDetail', params: { id: row.id } })
 }
 
+const formatPassRate = (rate) => {
+  return rate ? `${(rate * 100).toFixed(1)}%` : '0.0%'
+}
+
 onMounted(async () => {
   try {
     const res = await axios.get('/problems')
-    problems.value = res.data // 根据你的后端返回结构，可能是 res.data 或 res.data.data
+    problems.value = res.data
   } catch (err) {
     console.error('获取题目失败：', err)
   }

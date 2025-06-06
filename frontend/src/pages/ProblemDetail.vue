@@ -5,11 +5,8 @@
       <el-button @click="$router.push('/profile')">我的主页</el-button>
     </div>
     
-
     <h2>{{ problem.title }}</h2>
 
-
-    <!-- 将“难度”与“查看提交记录”按钮并列显示 -->
     <section class="difficulty-section">
       <p><strong>难度：</strong><span :class="'difficulty-' + problem.difficulty.toLowerCase()">{{ problem.difficulty }}</span></p>
       <el-button @click="goToSubmissionHistory" class="view-submissions-button">查看提交记录</el-button>
@@ -17,17 +14,17 @@
 
     <section class="card">
       <h3>题目描述</h3>
-      <p v-html="descriptionHtml"></p>
+      <div class="markdown-body" v-html="descriptionHtml"></div>
     </section>
 
     <section class="card">
       <h3>输入描述</h3>
-      <p v-html="inputHtml"></p>
+      <div class="markdown-body" v-html="inputHtml"></div>
     </section>
 
     <section class="card">
       <h3>输出描述</h3>
-      <p v-html="outputHtml"></p>
+      <div class="markdown-body" v-html="outputHtml"></div>
     </section>
 
     <section class="card">
@@ -95,7 +92,16 @@
 import { ref, onMounted } from 'vue'
 import axios from '../api/axios'
 import { useRoute, useRouter } from 'vue-router'
-import { marked } from 'marked'
+import MarkdownIt from 'markdown-it'
+import mathjax3 from 'markdown-it-mathjax3'
+import '../styles/markdown.css'
+
+const md = new MarkdownIt({
+  html: true,
+  breaks: true,
+  linkify: true
+})
+md.use(mathjax3)
 
 const route = useRoute()
 const problem = ref(null)
@@ -108,7 +114,12 @@ const result = ref('')
 const passed = ref(0)
 const total = ref(0)
 const caseResults = ref([])
-const router = useRouter()  // 使用 useRouter 获取路由实例
+const router = useRouter()
+
+const renderMarkdown = (text) => {
+  if (!text) return ''
+  return md.render(text)
+}
 
 const submitCode = async () => {
   const id = route.params.id
@@ -136,7 +147,7 @@ const submitCode = async () => {
 
 const goToSubmissionHistory = () => {
   const problemID = route.params.id
-  router.push(`/submissions/${problemID}`)  // 使用 router.push 跳转
+  router.push(`/submissions/${problemID}`)
 }
 
 onMounted(async () => {
@@ -144,126 +155,147 @@ onMounted(async () => {
   try {
     const res = await axios.get(`/problems/${id}`)
     problem.value = res.data
-    descriptionHtml.value = marked(problem.value.description)
-    inputHtml.value = marked(problem.value.input)
-    outputHtml.value = marked(problem.value.output)
+    descriptionHtml.value = renderMarkdown(problem.value.description)
+    inputHtml.value = renderMarkdown(problem.value.input)
+    outputHtml.value = renderMarkdown(problem.value.output)
   } catch (error) {
     console.error('加载题目失败：', error)
   }
 })
+
+const getStatusClass = (status) => {
+  return {
+    'Accepted': 'status-success',
+    'Wrong Answer': 'status-error',
+    'Runtime Error': 'status-error',
+    'Time Limit Exceeded': 'status-warning',
+    'Compilation Error': 'status-error',
+    'Pending': 'status-pending'
+  }[status] || 'status-default'
+}
 </script>
 
 <style scoped>
 .problem-detail {
-    width: 80%;
-    margin: 20px auto;
+  width: 80%;
+  margin: 20px auto;
 }
 
 .button-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .problem-detail h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 .problem-detail h3 {
-    font-size: 20px;
-    color: #333;
-    border-left: 4px solid #409EFF;
-    padding-left: 10px;
-    margin-bottom: 10px;
+  font-size: 20px;
+  color: #333;
+  border-left: 4px solid #409EFF;
+  padding-left: 10px;
+  margin-bottom: 10px;
 }
 
 .card {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.katex {
-  font-size: 1.05em;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
 }
 
 section {
-    margin-bottom: 20px;
-}
-
-.code-input {
-    margin-top: 10px;
-    font-family: monospace;
+  margin-bottom: 20px;
 }
 
 .code-select {
-    width: 200px;
-    margin-bottom: 10px;
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.code-input {
+  margin-bottom: 10px;
+  font-family: monospace;
 }
 
 .submit-button {
-    margin-top: 10px;
-}
-
-.back-button {
-    margin-bottom: 20px;
-}
-
-.view-submissions-button {
-    margin-left: 10px;
-    margin-top: 10px;
+  width: 100%;
 }
 
 .difficulty-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-.accepted {
-    color: green;
-}
-
-.wrong {
-    color: red;
-}
-
-.tle {
-    color: orange;
-}
-
-.mle {
-    color: purple;
-}
-
-.re {
-    color: blue;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .difficulty-easy {
-    color: green;
+  color: #67C23A;
 }
+
 .difficulty-medium {
-    color: orange;
+  color: #E6A23C;
 }
+
 .difficulty-hard {
-    color: red;
+  color: #F56C6C;
+}
+
+.status-success {
+  color: #67C23A;
+}
+
+.status-error {
+  color: #F56C6C;
+}
+
+.status-warning {
+  color: #E6A23C;
+}
+
+.status-pending {
+  color: #909399;
+}
+
+.status-default {
+  color: #606266;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #EBEEF5;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #F5F7FA;
+  color: #606266;
+}
+
+tr:hover {
+  background-color: #F5F7FA;
+}
+
+/* 添加 MathJax 相关样式 */
+:deep(.mjx-chtml) {
+  margin: 1em 0;
+  font-size: 1.1em !important;
+}
+
+:deep(.mjx-chtml.MJXc-display) {
+  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1em 0;
 }
 </style>

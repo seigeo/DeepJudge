@@ -36,7 +36,12 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// 将user_id放入context
-		c.Set("user_id", claims["user_id"])
+		if userID, ok := claims["user_id"].(float64); ok {
+			c.Set("user_id", uint(userID))
+		} else {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "无效的用户ID"})
+			return
+		}
 		c.Next()
 	}
 }
