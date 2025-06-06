@@ -26,10 +26,25 @@
 | Web 框架     | Gin                                   |
 | 用户鉴权     | JWT                                   |
 | 数据存储     | SQLite（可平滑切换 MySQL/PostgreSQL） |
-| 异步任务队列 | Redis + Goroutine Worker Pool         |
+| 消息队列     | Redis Stream + Goroutine Worker Pool  |
+| 排行榜系统   | Redis Sorted Set                      |
+| 缓存层       | Redis（提交记录、用户信息）           |
 | 沙箱运行     | Docker 容器（运行用户代码）           |
 | 智能分析     | DeepSeek API                          |
-| 前端         | Vue 3 + Element Plus（可选）          |
+| 前端         | Vue 3 + Element Plus         |
+
+---
+
+## 💡 后端技术亮点
+
+- 🚀 基于 Redis Stream 的消息队列，保证评测任务的可靠性和持久性
+- 🔄 多 Worker 并发评测，Worker 自动负载均衡
+- 📊 使用 Redis Sorted Set 实现实时排行榜，支持多维度排序
+- 🔒 Docker 沙箱隔离执行用户代码，严格限制系统资源
+- 🎯 精确的评测结果（AC/WA/TLE/MLE/RE）和详细运行时信息
+- 💾 Redis 多级缓存设计，提升系统响应速度
+- 🛡️ 基于 JWT + 中间件的权限校验体系
+- 🔍 完善的日志记录和错误追踪机制
 
 ---
 
@@ -44,4 +59,6 @@
 - ✅ 提交记录分页接口
 - ✅ DeepSeek 智能分析结果展示
 - ✅ 安全限制：资源限额 / 防止刷题攻击
-- ⏳ 用户评测排行 / 提交统计
+- ✅ 用户评测排行 / 提交统计
+- ✅ 支持数学公式渲染（KaTeX）
+- ✅ 美观的页脚设计
